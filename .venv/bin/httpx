@@ -1,0 +1,8 @@
+#!/bin/sh
+'''exec' "/Users/classyytanugmail.com/Desktop/DSBA M1/Foundations of Machine Learning/DSBA M1 Data Challenge/.venv/bin/python" "$0" "$@"
+' '''
+import sys
+from httpx import main
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(main())
