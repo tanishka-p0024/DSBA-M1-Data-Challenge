@@ -1,0 +1,71 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# =========================
+# Virtual Environments
+# =========================
+.venv/
+venv/
+env/
+
+# =========================
+# Jupyter Notebook
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Data
+# =========================
+
+
+# =========================
+# Model Artifacts
+# =========================
+*.pkl
+*.joblib
+*.model
+
+# =========================
+# Credentials
+# =========================
+.env
+.env.*
+!.env.example
+kaggle.json
+.kaggle/
+
+# =========================
+# Operating Systems
+# =========================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+
+
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
