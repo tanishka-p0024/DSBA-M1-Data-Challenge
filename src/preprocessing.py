@@ -13,3 +13,4 @@ def convert_to_datetime(data):
         data[col] = pd.to_datetime(data[col], utc=True)
 
     return data
+
