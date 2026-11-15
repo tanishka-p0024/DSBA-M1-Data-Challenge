@@ -91,6 +91,15 @@ def has_music_app(data):
 
     return data
 
+def travel_search_feature(data):
+    data = data.copy()
+
+    data["is_travel_search"] = (
+        data["travel_search_city"].notna()
+        & data["travel_search_arrival"].notna()
+    ).astype(int)
+
+    return data
 
 # Now making combined features :
 # build intial features:
@@ -102,5 +111,97 @@ def build_ifeatures(data):
     data = city_match(data)
     data = has_discount(data)
     data = has_music_app(data)
+    data = travel_search_feature(data)
+
+    return data
+
+
+
+# Genre feature engineering 7 
+
+def genre_matching(data):
+    data = data.copy()
+    favourite = (
+        data["stated_favourite_genre"]
+        .str.strip()
+        .str.lower()
+    )
+
+    concert_genres = (
+        data["genres"]
+        .str.lower()
+        .str.split("|", regex=False)
+    )
+
+    # Feature 1 - To see if their stated genre in genre of concert
+    data["fav_genre_match"] = [
+        int(fav in genres) if pd.notna(fav) else np.nan
+        for fav, genres in zip(favourite, concert_genres)
+    ]
+
+    # Feature 2: if the fav genre is missing or not 
+    data["fav_genre_missing"] = favourite.isna().astype(int)
+
+    return data
+
+
+
+# Feature 8 : Missing values logic //This is non statistical hence no data leakage.//Goes before spliting
+def correct_music_missing_values(data):
+    data = data.copy()
+
+    count_features = [
+        "artist_play_count",
+        "artist_saved_count",
+        "concert_genre_total_plays",
+        "concert_genre_total_saved",
+        "avg_genre_plays",
+        "max_genre_plays"
+    ]
+
+    genre_features = [
+        "concert_genre_total_plays",
+        "concert_genre_total_saved",
+        "avg_genre_plays",
+        "max_genre_plays"
+    ]
+
+    valid_history = data["activity_status"].isin(
+        ["active", "empty"]
+    )
+
+    no_history = (
+        data["has_music_app"].eq(0)
+        | data["activity_status"].eq("missing")
+        | data["activity_status"].isna()
+    )
+
+    # Confirmed no matching activity for valid histories
+    data.loc[valid_history, count_features] = (
+        data.loc[valid_history, count_features].fillna(0)
+    )
+
+    # Unavailable listening history remains unknown
+    data.loc[no_history, count_features] = np.nan
+
+    return data
+
+# Feature 9 : Music Affinity ratios
+
+def music_affinity_features(data):
+    data = data.copy()
+
+    # This will also avoid div by 0
+    total_events = data["total_track_events"].replace(0, np.nan)
+
+    
+    data["artist_play_share"] = (
+        data["artist_play_count"] / total_events
+    )
+
+    
+    data["concert_genre_play_share"] = (
+        data["concert_genre_total_plays"] / total_events
+    )
 
     return data
