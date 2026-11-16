@@ -29,5 +29,5 @@ def remove_cols(data):
 def remove_datetime(data):
     data = data.drop(["concert_at",
     "sale_opened_at",
-    "prediction_at"],axis = 1)
+    "prediction_at","artist_name"],axis = 1)
     return data 
