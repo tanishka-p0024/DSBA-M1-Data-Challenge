@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import preprocessing
+from src import preprocessing
 
 # Feature 1 : Lead difference handling 
 '''At any cost we need to run this first'''

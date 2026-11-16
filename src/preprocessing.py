@@ -18,7 +18,7 @@ def convert_to_datetime(data):
 
 # Only run this after applying the feature engineering step
 def remove_cols(data):
-    data = data.drop(['home_lat','home_lon','artist_id_x','artist_id_y',
+    data = data.drop(['home_lat','home_lon',
                       'venue_lat','venue_lon','ticket_price',
                       'booking_fee','discount_pct',
                       'travel_search_city','travel_search_arrival'],axis = 1
